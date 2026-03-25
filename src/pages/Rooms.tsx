@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Search, X, Building2 } from 'lucide-react';
+import { Plus, Search, X, Building2, Trash2 } from 'lucide-react';
 
 export interface RoomSummaryData {
   id: string;
@@ -97,11 +97,23 @@ export const Rooms = () => {
       toast.success(`Room ${newRoomNumber} added successfully`);
       setNewRoomNumber('');
       setShowAddModal(false);
-      await fetchRooms(); // Re-sync UI
+      await fetchRooms();
     } catch (err: any) {
       toast.error(err.message || 'Failed to add room');
     } finally {
       setIsAdding(false);
+    }
+  };
+
+  const handleDeleteRoom = async (roomId: string, roomNumber: string) => {
+    const confirmed = window.confirm(`Are you sure you want to delete Room "${roomNumber}"? This will permanently delete ALL tenants, readings, and payments for this room.`);
+    if (!confirmed) return;
+    try {
+      await api.deleteRoom(roomId);
+      toast.success(`Room ${roomNumber} deleted successfully`);
+      await fetchRooms();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to delete room');
     }
   };
 
@@ -245,20 +257,28 @@ export const Rooms = () => {
                         ₹{room.dueAmount || 0}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
-                        <Button
-                          variant="secondary"
-                          className="h-8 px-3 text-xs"
-                          onClick={() => {
-                            // Navigate to either Edit layout to add tenant, or Room detail to see history
-                            if (room.status === 'occupied') {
-                              window.location.href = `/rooms/${room.id}`;
-                            } else {
-                              window.location.href = `/rooms/${room.id}/edit`;
-                            }
-                          }}
-                        >
-                          {room.status === 'occupied' ? 'Manage' : 'Add Tenant'}
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="secondary"
+                            className="h-8 px-3 text-xs"
+                            onClick={() => {
+                              if (room.status === 'occupied') {
+                                window.location.href = `/rooms/${room.id}`;
+                              } else {
+                                window.location.href = `/rooms/${room.id}/edit`;
+                              }
+                            }}
+                          >
+                            {room.status === 'occupied' ? 'Manage' : 'Add Tenant'}
+                          </Button>
+                          <button
+                            className="h-8 w-8 flex items-center justify-center rounded-lg text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20 transition-colors"
+                            onClick={() => handleDeleteRoom(room.id, room.roomNumber)}
+                            title="Delete Room"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </td>
                     </motion.tr>
                   ))}

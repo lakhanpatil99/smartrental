@@ -94,7 +94,7 @@ export const Register = () => {
             <Building2 className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
           </motion.div>
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Create Account</h1>
-          <p className="text-slate-500 dark:text-slate-400">Join SmartRental Pro today</p>
+          <p className="text-slate-500 dark:text-slate-400">Join Patil House today</p>
         </div>
 
         <Card className="p-8">

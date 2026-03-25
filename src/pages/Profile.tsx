@@ -12,17 +12,22 @@ import toast from 'react-hot-toast';
 export const Profile = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [displayName, setDisplayName] = useState('');
 
   useEffect(() => {
-    if (document.documentElement.classList.contains('dark')) {
-      setIsDarkMode(true);
+    const saved = localStorage.getItem('darkMode');
+    const isDark = saved === null ? true : saved === 'true';
+    setIsDarkMode(isDark);
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
@@ -36,9 +41,11 @@ export const Profile = () => {
     const root = document.documentElement;
     if (isDarkMode) {
       root.classList.remove('dark');
+      localStorage.setItem('darkMode', 'false');
       setIsDarkMode(false);
     } else {
       root.classList.add('dark');
+      localStorage.setItem('darkMode', 'true');
       setIsDarkMode(true);
     }
   };

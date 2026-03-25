@@ -30,7 +30,7 @@ export const Sidebar = () => {
   return (
     <aside className="hidden md:flex flex-col w-64 h-screen border-r border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl fixed left-0 top-0">
       <div className="p-6">
-        <h1 className="text-2xl font-bold text-gradient">SmartRental</h1>
+        <h1 className="text-2xl font-bold text-gradient">Patil House</h1>
         <p className="text-xs text-slate-500 mt-1 font-medium tracking-wide uppercase">Pro Manager</p>
       </div>
       

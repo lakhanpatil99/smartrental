@@ -20,7 +20,7 @@ export const AppLayout = () => {
       <div className="flex-1 flex flex-col min-h-screen md:pl-64">
         {/* Mobile Header */}
         <header className="md:hidden flex items-center justify-between p-4 glass sticky top-0 z-40 border-b border-white/20">
-          <h1 className="text-xl font-bold text-gradient">SmartRental</h1>
+          <h1 className="text-xl font-bold text-gradient">Patil House</h1>
           <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-sm">
             {initials}
           </div>

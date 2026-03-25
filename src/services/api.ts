@@ -348,5 +348,20 @@ export const api = {
       .range(start, end);
     if (error) throw error;
     return data;
+  },
+
+  // --- Delete Room ---
+  deleteRoom: async (roomId: string) => {
+    const uid = await getUid();
+
+    // Delete related payments
+    await supabase.from('payments').delete().eq('room_id', roomId).eq('user_id', uid);
+    // Delete related readings
+    await supabase.from('readings').delete().eq('room_id', roomId).eq('user_id', uid);
+    // Delete related tenants
+    await supabase.from('tenants').delete().eq('room_id', roomId).eq('user_id', uid);
+    // Delete the room
+    const { error } = await supabase.from('rooms').delete().eq('id', roomId).eq('user_id', uid);
+    if (error) throw error;
   }
 };
